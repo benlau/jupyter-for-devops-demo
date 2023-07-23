@@ -1,0 +1,40 @@
+version: "3"
+
+services:
+  web:
+    # the application's web service (container) will use an image based on our Dockerfile
+    build: .
+    # map the internal port 80 to port 8000 on the host
+    ports:
+      - "8000:80"
+    # map the host directory to app (which allows us to see and edit files inside the container)
+    volumes:
+      - ".:/app:rw"
+      - "./data:/data:rw"
+    # the default command to run whenever the container is launched
+    command: python manage.py runserver 0.0.0.0:80
+    # the URL 'postgres' or 'mysql' will point to the application's db service
+    networks:
+      - djangocmsnet
+
+    env_file: .env-local
+
+  database_default:
+    # Select one of the following db configurations for the database
+    image: postgres:13.5-alpine
+    ports:
+      - "5432:5432/tcp"  # allow your local dev env to connect to the db
+    environment:
+      POSTGRES_DB: "db"
+      POSTGRES_PASSWORD: "password"
+      POSTGRES_HOST_AUTH_METHOD: "trust"
+      SERVICE_MANAGER: "fsm-postgres"
+
+    networks:
+      - djangocmsnet
+
+    volumes:
+      - ".:/app:rw"
+
+networks:
+  djangocmsnet:
