@@ -6,7 +6,7 @@ services:
     build: .
     # map the internal port 80 to port 8000 on the host
     ports:
-      - "8000:80"
+      - "8080:80"
     # map the host directory to app (which allows us to see and edit files inside the container)
     volumes:
       - ".:/app:rw"
@@ -17,7 +17,7 @@ services:
     networks:
       - djangocmsnet
 
-    env_file: .env-local
+    env_file: config.env
 
   database_default:
     # Select one of the following db configurations for the database
@@ -34,7 +34,11 @@ services:
       - djangocmsnet
 
     volumes:
-      - ".:/app:rw"
+      - db_data:/var/lib/postgresql/data
 
 networks:
   djangocmsnet:
+
+volumes:
+  db_data:
+    driver: local

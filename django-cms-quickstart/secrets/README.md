@@ -1,0 +1,1 @@
+In a real world application, you won't commit a secret into VCS directly. Instead, you could create the file by yourself or using encrypted methods like [StackExchange/blackbox: Safely store secrets in Git/Mercurial/Subversion](https://github.com/StackExchange/blackbox)
