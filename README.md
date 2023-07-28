@@ -20,7 +20,7 @@ VENV=jupyter-devops
 conda create --name ${VENV} -y jupyterlab   
 ```
 
-# Execution
+# Startup
 
 ```
 conda run -n ${VENV} jupyter lab --port 8089
